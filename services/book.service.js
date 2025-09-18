@@ -3,9 +3,15 @@ const {
 } = require("../models");
 const serviceCallResult = require("../responses/serviceCallResult.response");
 const bookRepository = require("../repositories/book.repository");
-const apiCallResultResponse = require("../responses/apiCallResult.response");
 
-const findAll = async () => {
+
+const findAll = async (filters) => {
+
+    if (Object.keys(filters).length > 0) {
+        books = await bookRepository.findFiltered(filters);
+        return serviceCallResult.ok(books);
+    }
+
     const books = await bookRepository.findAll();
     return serviceCallResult.ok(books);
 };

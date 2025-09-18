@@ -1,10 +1,49 @@
 const {
-    models: { books },
+    models: { books, authors },
 } = require("../models");
+const { Op } = require("sequelize");
+const { findFiltered } = require("./author.repository");
 
 findAll = () => {
-    return books.findAll();
+    return books.findAll({
+        include: [
+            {
+                model: authors,
+                as: "author",
+            }
+        ]
+    });
 };
+
+findFiltered = (filters) => {
+    const authorInclude = { model: authors, as: "author"};
+    const where = {};
+    if (filters.title) {
+        where.title = { [Op.iLike]: `%${filters.title}%`};
+    }
+    if (filters.minReleaseYear || filters.maxReleaseYear) {
+        where.release_year = {};
+        if (filters.minReleaseYear) {
+            where.release_year[Op.gte] = filters.minReleaseYear;
+        }
+        if (filters.maxReleaseYear) {
+            where.release_year[Op.lte] = filters.maxReleaseYear;
+        }
+    }
+    if (filters.author) {
+        authorInclude.where = {};
+        authorInclude.where[Op.or] = {};
+        authorInclude.where[Op.or].firstname = {
+            [Op.iLike]: `%${filters.author}%`,
+        };
+        authorInclude.where[Op.or].lastname = {
+            [Op.iLike]: `%${filters.author}%`,
+        };
+    } else if (filters.author_id) {
+        authorInclude.where = {};
+        authorInclude.where.id = filters.author_id;
+    }
+}
 
 findById = (id) => {
     return books.findByPk(id);
@@ -29,6 +68,7 @@ remove = (book) => {
 
 module.exports = {
     findAll,
+    findFiltered,
     findById,
     create,
     update,
