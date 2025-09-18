@@ -23,10 +23,14 @@ update = (currentAuthor, author) => {
     return currentAuthor.save();
 }
 
+remove = (author) => {
+    return author.destroy();
+}
 
 module.exports = {
     findAll,
     findById,
     create,
     update,
+    remove
 };

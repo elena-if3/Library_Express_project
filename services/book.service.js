@@ -41,10 +41,17 @@ const update = async (id, newBook = {}) => {
     return serviceCallResult.noContent();
 }
 
+const remove = async (id) => {
+    const book = await bookRepository.findById(id);
+    if (!book) return serviceCallResult.notFound(`Book with id #${id} not found.`);
+    await bookRepository.remove(book);
+    return serviceCallResult.noContent();
+}
 
 module.exports = {
     findAll,
     findOneById,
     create,
     update,
+    remove
 };

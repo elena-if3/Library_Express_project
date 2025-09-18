@@ -21,9 +21,15 @@ const update = async (req, res) => {
     return apiCallResult(res, result);
 }
 
+const remove = async (req, res) => {
+    const result = await bookService.remove(req.params.id);
+    return apiCallResult(res, result);
+}
+
 module.exports = {
     findAll,
     findOne,
     create,
     update,
+    remove
 };

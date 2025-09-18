@@ -23,9 +23,14 @@ update = (currentBook, book) => {
     return currentBook.save();
 }
 
+remove = (book) => {
+    return book.destroy();
+}
+
 module.exports = {
     findAll,
     findById,
     create,
     update,
+    remove
 };

@@ -40,9 +40,17 @@ const update = async (id, newAuthor = {}) => {
     return serviceCallResult.noContent();
 }
 
+const remove = async (id) => {
+    const author = await authorRepository.findById(id);
+    if (!author) return serviceCallResult.notFound(`Author with id #${id} not found.`);
+    await authorRepository.remove(author);
+    return serviceCallResult.noContent();
+}
+
 module.exports = {
     findAll,
     findOneById,
     create,
     update,
+    remove
 };
