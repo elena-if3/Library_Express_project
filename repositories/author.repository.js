@@ -1,10 +1,33 @@
 const {
     models: { authors },
 } = require("../models");
-const {where} = require("sequelize");
+const { Op } = require("sequelize");
 
 findAll = () => {
     return authors.findAll();
+};
+
+findFiltered = (filters) => {
+    const where = {};
+
+    if (filters.firstname) {
+        where.firstname = filters.firstname;
+    }
+    if (filters.lastname) {
+        where.lastname = filters.lastname;
+    }
+    if (filters.minBirthYear || filters.maxBirthYear) {
+        where.birthdate = {};
+        if (filters.minBirthYear) {
+            where.birthdate[Op.gte] = new Date(filters.minBirthYear, 0, 1);
+        }
+        if (filters.maxBirthYear) {
+            where.birthdate[Op.lte] = new Date(filters.maxBirthYear, 11, 31);
+        }
+    }
+    return authors.findAll({
+        where
+    });
 };
 
 findById = (id) => {
@@ -29,6 +52,7 @@ remove = (author) => {
 
 module.exports = {
     findAll,
+    findFiltered,
     findById,
     create,
     update,

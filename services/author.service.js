@@ -4,7 +4,13 @@ const {
 const serviceCallResult = require("../responses/serviceCallResult.response");
 const authorRepository = require("../repositories/author.repository");
 
-const findAll = async () => {
+const findAll = async (filters) => {
+    console.log(Object.keys(filters));
+
+    if (Object.keys(filters).length > 0) {
+        const authors = await authorRepository.findFiltered(filters);
+        return serviceCallResult.ok(authors);       
+    }
     const authors = await authorRepository.findAll();
     return serviceCallResult.ok(authors);
 };
