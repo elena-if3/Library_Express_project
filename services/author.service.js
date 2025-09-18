@@ -33,8 +33,16 @@ const create = async (author = {}) => {
     return serviceCallResult.badRequest(error);
 };
 
+const update = async (id, newAuthor = {}) => {
+    const author = await authorRepository.findById(id);
+    if (!author) return serviceCallResult.notFound(`Author with id #${id} not found.`);
+    await authorRepository.update(author,newAuthor);
+    return serviceCallResult.noContent();
+}
+
 module.exports = {
     findAll,
     findOneById,
     create,
+    update,
 };

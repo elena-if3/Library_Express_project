@@ -16,8 +16,14 @@ const create = async (req, res) => {
     return apiCallResult(res, result);
 };
 
+const update = async (req, res) => {
+    const result = await bookService.update(req.params.id, req.body);
+    return apiCallResult(res, result);
+}
+
 module.exports = {
     findAll,
     findOne,
     create,
+    update,
 };

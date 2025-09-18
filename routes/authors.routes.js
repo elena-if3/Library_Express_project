@@ -12,5 +12,6 @@ router.param("id", (req, res, next, value) => {
 router.get("/", authorController.findAll);
 router.get("/:id", authorController.findOne);
 router.post("/", authorController.create);
+router.put("/:id", authorController.update);
 
 module.exports = router;

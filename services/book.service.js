@@ -3,6 +3,7 @@ const {
 } = require("../models");
 const serviceCallResult = require("../responses/serviceCallResult.response");
 const bookRepository = require("../repositories/book.repository");
+const apiCallResultResponse = require("../responses/apiCallResult.response");
 
 const findAll = async () => {
     const books = await bookRepository.findAll();
@@ -33,8 +34,17 @@ const create = async (book = {}) => {
     return serviceCallResult.badRequest(error);
 };
 
+const update = async (id, newBook = {}) => {
+    const book = await bookRepository.findById(id);
+    if (!book) return serviceCallResult.notFound(`Book with id #${id} not found.`);
+    await bookRepository.update(book, newBook);
+    return serviceCallResult.noContent();
+}
+
+
 module.exports = {
     findAll,
     findOneById,
     create,
+    update,
 };

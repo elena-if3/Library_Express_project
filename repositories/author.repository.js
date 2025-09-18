@@ -1,6 +1,7 @@
 const {
     models: { authors },
 } = require("../models");
+const {where} = require("sequelize");
 
 findAll = () => {
     return authors.findAll();
@@ -14,8 +15,18 @@ create = (author) => {
     return authors.create(author);
 };
 
+update = (currentAuthor, author) => {
+    currentAuthor.firstname = author.firstname ?? currentAuthor.firstname;
+    currentAuthor.lastname = author.lastname ?? currentAuthor.lastname;
+    currentAuthor.birthdate = author.birthdate ?? currentAuthor.birthdate;
+
+    return currentAuthor.save();
+}
+
+
 module.exports = {
     findAll,
     findById,
     create,
+    update,
 };

@@ -12,5 +12,6 @@ router.param("id", (req, res, next, value) => {
 router.get("/", bookController.findAll);
 router.get("/:id", bookController.findOne);
 router.post("/", bookController.create);
+router.put("/:id", bookController.update);
 
 module.exports = router;
