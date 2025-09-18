@@ -2,7 +2,6 @@ const {
     models: { books, authors },
 } = require("../models");
 const { Op } = require("sequelize");
-const { findFiltered } = require("./author.repository");
 
 findAll = () => {
     return books.findAll({
