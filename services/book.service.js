@@ -8,7 +8,7 @@ const bookRepository = require("../repositories/book.repository");
 const findAll = async (filters) => {
 
     if (Object.keys(filters).length > 0) {
-        books = await bookRepository.findFiltered(filters);
+        const books = await bookRepository.findFiltered(filters);
         return serviceCallResult.ok(books);
     }
 

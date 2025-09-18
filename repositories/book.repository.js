@@ -42,6 +42,11 @@ findFiltered = (filters) => {
         authorInclude.where = {};
         authorInclude.where.id = filters.author_id;
     }
+
+    return books.findAll({
+        where,
+        include: [authorInclude]
+    });
 }
 
 findById = (id) => {
