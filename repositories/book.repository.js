@@ -9,16 +9,16 @@ findAll = () => {
             {
                 model: authors,
                 as: "author",
-            }
-        ]
+            },
+        ],
     });
 };
 
 findFiltered = (filters) => {
-    const authorInclude = { model: authors, as: "author"};
+    const authorInclude = { model: authors, as: "author" };
     const where = {};
     if (filters.title) {
-        where.title = { [Op.iLike]: `%${filters.title}%`};
+        where.title = { [Op.iLike]: `%${filters.title}%` };
     }
     if (filters.minReleaseYear || filters.maxReleaseYear) {
         where.release_year = {};
@@ -45,12 +45,12 @@ findFiltered = (filters) => {
 
     return books.findAll({
         where,
-        include: [authorInclude]
+        include: [authorInclude],
     });
-}
+};
 
 findById = (id) => {
-    return books.findByPk(id);
+    return books.findByPk(id, { include: [{ model: authors, as: "author" }] });
 };
 
 create = (book) => {
@@ -64,11 +64,11 @@ update = (currentBook, book) => {
     currentBook.author_id = book.author_id ?? currentBook.author_id;
 
     return currentBook.save();
-}
+};
 
 remove = (book) => {
     return book.destroy();
-}
+};
 
 module.exports = {
     findAll,
@@ -76,5 +76,5 @@ module.exports = {
     findById,
     create,
     update,
-    remove
+    remove,
 };
