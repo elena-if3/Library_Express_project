@@ -4,8 +4,10 @@ const { sequelize } = require("./models");
 const cors = require('cors');
 const { notFoundHandler, errorHandler } = require("./middleware/errorHandler");
 const routes = require("./routes");
+const cors = require("cors");
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
